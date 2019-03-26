@@ -116,7 +116,7 @@ struct CSPSolver
     }
 
     using partial_sol = std::vector<int>;
-    bool IsCompletionValid(const partial_sol& P, int v, int u)
+    bool IsCompletionValid(const partial_sol& P, int v, int c)
     {
         for (int i = 0; i < n; ++i)
         {
@@ -124,13 +124,13 @@ struct CSPSolver
             if (j == -1)
                 continue;
 
-            if (V.are_neighbors(v, i) != C.are_neighbors(u, j))
+            if (V.are_neighbors(v, i) != C.are_neighbors(c, j))
                 return false;
         }
 
-        for (auto ui : F[u])
+        for (auto vi : F[c])
         {
-            int w = P[ui];
+            int w = P[vi];
             if (w != -1)
             {
                 if (!belongs_to(v, F[w]))
@@ -168,7 +168,13 @@ struct CSPSolver
         for (Vertex v : V.vertices())
         {
             if (B.degreeX(v) == 1)
-                Q[v] = B.neighborsX(v)[0];
+            {
+                auto c = B.neighborsX(v)[0];
+                if (IsCompletionValid(Q,v,c))
+                    Q[v] = c;
+                else
+                    return solutions;
+            }
         }
 
         // standard DFS search
@@ -184,7 +190,7 @@ struct CSPSolver
             if (t == n)
             {
                 solutions.push_back(P);
-                continue;
+                continue; // TODO: return solutions
             }
 
             for (auto x : PossibleFillings(P, t))
@@ -249,8 +255,8 @@ struct CSPSolver
 
     std::vector<Face> F; // faces of V.
 
-    Graph C; // ???? no idea!!
+    Graph C; // dual
 
-    // arc consistency graph??? i think
+    // neighbors of v in B are the possible values that v could take
     BipartiteGraph B;
 };

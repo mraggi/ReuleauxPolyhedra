@@ -21,7 +21,7 @@ bool is_there_valid_assignment(Vertex x, const BlackEdge& e, const Graph& C, con
     {
         if (w == x)
             continue;
-        if (C.are_neighbors(x, w) == 1)
+        if (C.are_neighbors(x, w))
         {
             return true;
         }

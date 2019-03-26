@@ -104,6 +104,17 @@ void tonto3()
     }
 
     S.ArcConsistency();
+    
+    B = S.B;
+
+    for (int v = 0; v < B.num_vertices()/2; ++v)
+    {
+        std::cout << v << ": ";
+        for (auto u : B.neighborsX(v))
+            std::cout << u << ", ";
+        std::cout << std::endl;
+    }
+    
     std::cout << "sol = " << S.DFSSearch() << std::endl;
 }
 
@@ -194,63 +205,64 @@ int siguiente(const std::vector<int>& vecinosDeB, int a)
     return *it - 1;
 }
 
-int main()
+std::pair<Graph, std::vector<Face>> extract_graph_and_faces_from_plantri(const std::vector<std::vector<int>>& A)
 {
-    tonto();
-    return 0;
-    // 	std::cout << "-------------------------" << std::endl;
-    //     tonto2();
-    // 	std::cout << "-------------------------" << std::endl;
-    //     tonto3();
-    // 	std::cout << "-------------------------" << std::endl;
-    //     tonto4();
-    // 	std::cout << "-------------------------" << std::endl;
-    //     tonto5();
+    int n = A.size();
+    Graph G(n);
+    std::set<Face> setF;
+    for (int i = 0; i < n; ++i)
+    {
+        for (auto j : A[i])
+        {
+            --j;
+            if (i < j)
+                G.add_edge(i, j);
 
-    auto T = read_file("bla14");
+            Face f;
+            f.push_back(i);
+            f.push_back(j);
+            int a = i;
+            int b = j;
+            int k = siguiente(A[b], a);
+            while (k != i)
+            {
+                f.push_back(k);
+                a = b;
+                b = k;
+                k = siguiente(A[b], a);
+            }
+            sort(f.begin(), f.end());
+            setF.insert(f);
+        }
+    }
 
-    int total = 0;
+    std::vector<Face> F(setF.begin(), setF.end());
+        
+    return {G,F};
+}
+
+int main(int argc, char *argv[])
+{
+    if (argc != 2)
+    {
+        std::cout << "Usage: " << argv[0] << " <FILE>" << std::endl;
+        return 1;
+    }
+    std::string file(argv[1]);
+    
+    auto T = read_file(file);
 
     std::stringstream ss;
 
     int last = 0;
 
-    for (auto& G : T)
+    for (auto& A : T)
     {
         // 		std::cout << "Nueva grafica de " << G.size() << " vertices" <<
         // std::endl;
-        int n = G.size();
-        Graph H(n);
-        std::set<Face> F;
-        for (int i = 0; i < n; ++i)
-        {
-            for (auto j : G[i])
-            {
-                --j;
-                if (i < j)
-                    H.add_edge(i, j);
+        auto GF = extract_graph_and_faces_from_plantri(A);
 
-                Face f;
-                f.push_back(i);
-                f.push_back(j);
-                int a = i;
-                int b = j;
-                int k = siguiente(G[b], a);
-                while (k != i)
-                {
-                    f.push_back(k);
-                    a = b;
-                    b = k;
-                    k = siguiente(G[b], a);
-                }
-                sort(f.begin(), f.end());
-                F.insert(f);
-            }
-        }
-
-        std::vector<Face> FF(F.begin(), F.end());
-
-        CSPSolver S(H, FF);
+        CSPSolver S(GF.first, GF.second);
 
         last = S.PrintUnitDistanceGraphsForSage(ss);
     }
