@@ -200,7 +200,7 @@ struct CSPSolver
         return solutions;
     }
 
-    int PrintUnitDistanceGraphsForSage(std::stringstream& ss)
+    int PrintSolutions(std::stringstream& ss)
     {
         static int num = 0;
         ArcConsistency();
@@ -209,39 +209,41 @@ struct CSPSolver
         {
             for (auto& P : solutions)
             {
-                ss << "\nn[" << num << "] = " << n << ";" << std::endl;
-                ss << "caras[" << num << "] = " << F << ";" << std::endl;
-                ss << "sol[" << num << "] = " << P << ";" << std::endl;
-                ss << "aristadual[" << num << "] = {";
-                bool first = true;
-                for (int v = 0; v < n; ++v)
+                ss << "# Original graph" << '\n';
+                ss << V.num_vertices() << ' ' << V.num_edges() << '\n';
+                
+                for (Vertex u : V.vertices())
                 {
-                    for (auto u : V.neighbors(v))
+                    for (Vertex v : V.neighbors(u))
                     {
-                        if (u > v)
-                        {
-                            std::vector<int> result;
-                            std::set_intersection(F[P[v]].begin(),
-                                                  F[P[v]].end(),
-                                                  F[P[u]].begin(),
-                                                  F[P[u]].end(),
-                                                  std::back_inserter(result));
+                        if (u < v)
+                            ss << u << ' ' << v << '\n';
+                    }
+                }
+                
+                ss << "# Faces (in order)\n";
+                for (Vertex v : V.vertices())
+                {
+                    ss << F[P[v]] << '\n';
+                }
+                
+//                 ss << "caras[" << num << "] = " << F << ";" << std::endl;
+//                 ss << "sol[" << num << "] = " << P << ";" << std::endl;
+//                 ss << "aristadual[" << num << "] = {";
+                ss << "# Unit distance graph\n";
 
-                            assert(result.size() == 2);
-                            if (v < result[0])
-                            {
-                                if (!first)
-                                {
-                                    ss << ",";
-                                }
-                                first = false;
-                                ss << "{" << v << "," << u << "," << result[0] << "," << result[1]
-                                   << "}";
-                            }
+                bool first = true;
+                for (Vertex u : V.vertices())
+                {
+                    for (Vertex v : F[P[u]])
+                    {
+                        if (u < v)
+                        {
+                            ss << u << ' ' << v << '\n';
                         }
                     }
                 }
-                ss << "};\n";
+                ss << '\n';
 
                 ++num;
             }

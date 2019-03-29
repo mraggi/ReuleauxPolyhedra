@@ -7,8 +7,12 @@ bool operator<(const BlackEdge& A, const BlackEdge& B)
     return A.b < B.b;
 }
 
-bool do_faces_intersect(const Face& A, const Face& B)
+bool do_faces_intersect(const Face& AA, const Face& BB)
 {
+    Face A = AA;
+    Face B = BB;
+    std::sort(A.begin(), A.end());
+    std::sort(B.begin(), B.end());
     Face intersection;
     std::set_intersection(A.begin(), A.end(), B.begin(), B.end(), std::back_inserter(intersection));
     return intersection.size() == 2;

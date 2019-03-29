@@ -209,7 +209,7 @@ std::pair<Graph, std::vector<Face>> extract_graph_and_faces_from_plantri(const s
 {
     int n = A.size();
     Graph G(n);
-    std::set<Face> setF;
+    std::vector<Face> F;
     for (int i = 0; i < n; ++i)
     {
         for (auto j : A[i])
@@ -231,13 +231,11 @@ std::pair<Graph, std::vector<Face>> extract_graph_and_faces_from_plantri(const s
                 b = k;
                 k = siguiente(A[b], a);
             }
-            sort(f.begin(), f.end());
-            setF.insert(f);
+            if (std::min_element(f.begin(), f.end()) == f.begin())
+                F.emplace_back(f);
         }
     }
-
-    std::vector<Face> F(setF.begin(), setF.end());
-        
+    
     return {G,F};
 }
 
@@ -264,7 +262,7 @@ int main(int argc, char *argv[])
 
         CSPSolver S(GF.first, GF.second);
 
-        last = S.PrintUnitDistanceGraphsForSage(ss);
+        last = S.PrintSolutions(ss);
     }
     std::cout << "total = " << last << ";" << std::endl;
     std::cout << ss.str() << std::endl;
