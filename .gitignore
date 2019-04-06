@@ -10,6 +10,7 @@ Makefile
 .project
 Graph
 plantri
+*.sage
 
 # Prerequisites
 *.d
