@@ -15,25 +15,21 @@ public:
     using Population = std::vector<Vector>;
     using idx = std::ptrdiff_t;
 
-    DifferentialEvolver(Population InitialPopulation, Cost f)
-        : f(f), X(InitialPopulation)
+    DifferentialEvolver(Population InitialPopulation, Cost f) : f(f), X(InitialPopulation)
     {
         if (population_size() < 4)
         {
-            std::cerr << "Error: Population must have size at least 4!"
-                      << std::endl;
+            std::cerr << "Error: Population must have size at least 4!" << std::endl;
             std::abort();
         }
 
         costs.reserve(X.size());
 
-        std::transform(X.begin(),
-                       X.end(),
-                       std::back_inserter(costs),
-                       [f](const Vector& x) { return f(x); });
+        std::transform(X.begin(), X.end(), std::back_inserter(costs), [f](const Vector& x) {
+            return f(x);
+        });
 
-        idx best_idx = std::min_element(costs.begin(), costs.end()) -
-          costs.begin();
+        idx best_idx = std::min_element(costs.begin(), costs.end()) - costs.begin();
 
         best = X[best_idx];
         best_cost = costs[best_idx];

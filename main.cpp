@@ -104,7 +104,7 @@ void tonto3()
     }
 
     S.ArcConsistency();
-    
+
     B = S.B;
 
     for (int v = 0; v < B.num_vertices()/2; ++v)
@@ -114,7 +114,7 @@ void tonto3()
             std::cout << u << ", ";
         std::cout << std::endl;
     }
-    
+
     std::cout << "sol = " << S.DFSSearch() << std::endl;
 }
 
@@ -205,7 +205,8 @@ int siguiente(const std::vector<int>& vecinosDeB, int a)
     return *it - 1;
 }
 
-std::pair<Graph, std::vector<Face>> extract_graph_and_faces_from_plantri(const std::vector<std::vector<int>>& A)
+std::pair<Graph, std::vector<Face>> extract_graph_and_faces_from_plantri(
+  const std::vector<std::vector<int>>& A)
 {
     int n = A.size();
     Graph G(n);
@@ -235,11 +236,11 @@ std::pair<Graph, std::vector<Face>> extract_graph_and_faces_from_plantri(const s
                 F.emplace_back(f);
         }
     }
-    
-    return {G,F};
+
+    return {G, F};
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     if (argc != 2)
     {
@@ -247,7 +248,7 @@ int main(int argc, char *argv[])
         return 1;
     }
     std::string file(argv[1]);
-    
+
     auto T = read_file(file);
 
     std::stringstream ss;

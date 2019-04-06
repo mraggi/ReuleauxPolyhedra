@@ -1,8 +1,8 @@
 #pragma once
 
 #include <fstream>
-#include <sstream>
 #include <istream>
+#include <sstream>
 
 using index_t = std::ptrdiff_t;
 
@@ -27,7 +27,8 @@ bool belongs_to(const T& x, const std::vector<T>& X)
     return std::find(X.begin(), X.end(), x) != X.end();
 }
 
-inline std::vector<std::string> read_txt_file(const std::string& filename, bool discard_comments = false)
+inline std::vector<std::string> read_txt_file(const std::string& filename,
+                                              bool discard_comments = false)
 {
     std::vector<std::string> result;
     std::ifstream file(filename);
@@ -37,9 +38,9 @@ inline std::vector<std::string> read_txt_file(const std::string& filename, bool 
         if (discard_comments)
         {
             auto comment_start = std::find(buffer.begin(), buffer.end(), '#');
-            buffer.erase(comment_start,buffer.end());
+            buffer.erase(comment_start, buffer.end());
         }
-        
+
         if (buffer.size() > 0)
             result.emplace_back(buffer);
     }
@@ -50,8 +51,10 @@ inline std::vector<int> split_line_into_ints(const std::string& line)
 {
     std::istringstream is(line);
     std::vector<int> result;
-    std::copy(std::istream_iterator<int>(is), std::istream_iterator<int>(), std::back_inserter(result));
-    
+    std::copy(std::istream_iterator<int>(is),
+              std::istream_iterator<int>(),
+              std::back_inserter(result));
+
     return result;
 }
 

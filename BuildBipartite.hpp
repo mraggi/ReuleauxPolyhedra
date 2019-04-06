@@ -170,7 +170,7 @@ struct CSPSolver
             if (B.degreeX(v) == 1)
             {
                 auto c = B.neighborsX(v)[0];
-                if (IsCompletionValid(Q,v,c))
+                if (IsCompletionValid(Q, v, c))
                     Q[v] = c;
                 else
                     return solutions;
@@ -212,7 +212,7 @@ struct CSPSolver
             {
                 ss << "# Original graph" << '\n';
                 ss << V.num_vertices() << ' ' << V.num_edges() << '\n';
-                
+
                 for (Vertex u : V.vertices())
                 {
                     for (Vertex v : V.neighbors(u))
@@ -221,16 +221,16 @@ struct CSPSolver
                             ss << u << ' ' << v << '\n';
                     }
                 }
-                
+
                 ss << "# Faces (in order)\n";
                 for (Vertex v : V.vertices())
                 {
                     ss << F[P[v]] << '\n';
                 }
-                
-//                 ss << "caras[" << num << "] = " << F << ";" << std::endl;
-//                 ss << "sol[" << num << "] = " << P << ";" << std::endl;
-//                 ss << "aristadual[" << num << "] = {";
+
+                //                 ss << "caras[" << num << "] = " << F << ";" << std::endl;
+                //                 ss << "sol[" << num << "] = " << P << ";" << std::endl;
+                //                 ss << "aristadual[" << num << "] = {";
                 ss << "# Unit distance graph\n";
 
                 for (Vertex u : V.vertices())
