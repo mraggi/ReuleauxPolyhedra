@@ -252,7 +252,7 @@ int main(int argc, char *argv[])
 
     std::stringstream ss;
 
-    int last = 0;
+    int total = 0;
 
     for (auto& A : T)
     {
@@ -262,9 +262,10 @@ int main(int argc, char *argv[])
 
         CSPSolver S(GF.first, GF.second);
 
-        last = S.PrintSolutions(ss);
+        total += S.PrintSolutions(ss);
     }
-    std::cout << "total = " << last << ";" << std::endl;
+    std::cout << "# Total Embeddings" << std::endl;
+    std::cout << total << std::endl;
     std::cout << ss.str() << std::endl;
 
     return 0;

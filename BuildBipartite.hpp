@@ -200,9 +200,10 @@ struct CSPSolver
         return solutions;
     }
 
+    // returns number of solutions
     int PrintSolutions(std::stringstream& ss)
     {
-        static int num = 0;
+        int num = 0;
         ArcConsistency();
         auto solutions = DFSSearch();
         if (solutions.size() > 0)
@@ -232,7 +233,6 @@ struct CSPSolver
 //                 ss << "aristadual[" << num << "] = {";
                 ss << "# Unit distance graph\n";
 
-                bool first = true;
                 for (Vertex u : V.vertices())
                 {
                     for (Vertex v : F[P[u]])
