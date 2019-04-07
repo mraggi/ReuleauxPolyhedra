@@ -20,6 +20,7 @@
 0 3 2 
 0 2 1 
 # Unit distance graph
+6 10
 0 2
 0 5
 0 4

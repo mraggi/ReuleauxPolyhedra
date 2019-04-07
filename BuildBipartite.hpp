@@ -232,6 +232,7 @@ struct CSPSolver
                 //                 ss << "sol[" << num << "] = " << P << ";" << std::endl;
                 //                 ss << "aristadual[" << num << "] = {";
                 ss << "# Unit distance graph\n";
+                ss << V.num_vertices() << ' ' << V.num_edges() << '\n';
 
                 for (Vertex u : V.vertices())
                 {

@@ -58,6 +58,19 @@ inline std::vector<int> split_line_into_ints(const std::string& line)
     return result;
 }
 
+inline void replace_by_bigger(double& a, double b)
+{
+    if (a < b)
+        a = b;
+}
+
+inline void replace_by_smaller(double& a, double b)
+{
+    if (a > b)
+        a = b;
+}
+
+
 // template <class T>
 // std::ostream& operator<<(std::ostream& os, const vector<vector<T>>& A)
 // {
