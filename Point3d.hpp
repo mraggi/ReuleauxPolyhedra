@@ -97,7 +97,6 @@ public:
         return copy;
     }
 
-
     /* start Operator definitions */
 
     inline void operator+=(const Point3d& vec)
@@ -179,10 +178,7 @@ inline real distancesq(const Point3d& A, const Point3d& B)
     return dx*dx + dy*dy + dz*dz;
 }
 
-inline real distance(const Point3d& A, const Point3d& B)
-{
-    return std::sqrt(distancesq(A, B));
-}
+inline real distance(const Point3d& A, const Point3d& B) { return std::sqrt(distancesq(A, B)); }
 
 inline real lengthsq(const Point3d& A) { return A.LengthSq(); }
 
@@ -190,7 +186,7 @@ inline real length(const Point3d& A) { return A.Length(); }
 
 inline std::ostream& operator<<(std::ostream& os, const Point3d& P)
 {
-    os << "(" << P.x << ", " << P.y << ", " << P.z <<  ")";
+    os << "(" << P.x << ", " << P.y << ", " << P.z << ")";
 
     return os;
 }

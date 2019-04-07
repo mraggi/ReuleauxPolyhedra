@@ -79,7 +79,7 @@ public:
         X.push_back(I);
         costs.push_back(cost);
     }
-    
+
 private:
     std::array<idx, 3> pick_three() const
     {

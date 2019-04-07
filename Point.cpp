@@ -130,15 +130,9 @@ bool Point::IsToTheRightOfLine(const Point& A, const Point& B) const
     return H.x*P.y < H.y*P.x;
 }
 
-bool Point::operator!=(const Point& vec) const
-{
-    return ((x != vec.x) || (y != vec.y));
-}
+bool Point::operator!=(const Point& vec) const { return ((x != vec.x) || (y != vec.y)); }
 
-bool Point::operator==(const Point& vec) const
-{
-    return ((x == vec.x) && (y == vec.y));
-}
+bool Point::operator==(const Point& vec) const { return ((x == vec.x) && (y == vec.y)); }
 
 void Point::Truncate(real r)
 {
@@ -160,10 +154,7 @@ std::ostream& operator<<(std::ostream& os, const Point& rhs)
     return os;
 }
 
-Point Point::Polar(real r, real theta)
-{
-    return {r*cos(theta), r*sin(theta)};
-}
+Point Point::Polar(real r, real theta) { return {r*cos(theta), r*sin(theta)}; }
 
 Point Point::RandomPoint(real maxLength)
 {

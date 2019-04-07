@@ -1,11 +1,10 @@
 #pragma once
 
-#include "Graph.hpp"
-#include "utility.hpp"
-#include "Point3d.hpp"
 #include "BuildBipartite.hpp"
+#include "Graph.hpp"
+#include "Point3d.hpp"
 #include "Random.hpp"
-
+#include "utility.hpp"
 
 struct GraphAndUnitDistanceGraph
 {
@@ -76,7 +75,7 @@ std::vector<Point3d> generate_random_points(int n, double t = 1.0)
     Random R;
     std::vector<Point3d> P(n);
     for (auto& p : P)
-        p = Point3d(R.random_real(-t,t), R.random_real(-t,t), R.random_real(-t,t));
-    
+        p = Point3d(R.random_real(-t, t), R.random_real(-t, t), R.random_real(-t, t));
+
     return P;
 }

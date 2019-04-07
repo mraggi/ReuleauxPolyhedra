@@ -31,10 +31,7 @@ public:
     }
 
     real Angle() const { return atan2(y, x); }
-    real AngleTo(const Point& vec) const
-    {
-        return MakeValidAngle(vec.Angle() - Angle());
-    }
+    real AngleTo(const Point& vec) const { return MakeValidAngle(vec.Angle() - Angle()); }
 
     bool IsCloserToFirstThanSecond(const Point& A, const Point& B) const
     {
@@ -199,10 +196,7 @@ public:
     }
     inline Point operator-() const { return {-x, -y}; }
 
-    bool operator==(const Point& vec) const
-    {
-        return ((x == vec.x) && (y == vec.y));
-    }
+    bool operator==(const Point& vec) const { return ((x == vec.x) && (y == vec.y)); }
     bool operator!=(const Point& vec) const { return !((*this) == vec); }
 
     ///////////////////////////////////////////////////////////////
@@ -232,49 +226,25 @@ public:
     Point GlobalToLocal(const Point& origin, const Point& U, const Point& V) const;
 
     // Get the std::vector with length r, angle theta
-    static Point Polar(real r, real theta)
-    {
-        return {r*cos(theta), r*sin(theta)};
-    }
+    static Point Polar(real r, real theta) { return {r*cos(theta), r*sin(theta)}; }
 };
 
 // Add and Substract
-inline Point operator+(const Point& A, const Point& B)
-{
-    return {A.x + B.x, A.y + B.y};
-}
+inline Point operator+(const Point& A, const Point& B) { return {A.x + B.x, A.y + B.y}; }
 
-inline Point operator-(const Point& A, const Point& B)
-{
-    return {A.x - B.x, A.y - B.y};
-}
+inline Point operator-(const Point& A, const Point& B) { return {A.x - B.x, A.y - B.y}; }
 
 // Multiply and divide by scalars on both sides;
-inline Point operator*(real num, const Point& vec)
-{
-    return {num*vec.x, num*vec.y};
-}
+inline Point operator*(real num, const Point& vec) { return {num*vec.x, num*vec.y}; }
 
-inline Point operator/(real num, const Point& vec)
-{
-    return {num/vec.x, num/vec.y};
-}
+inline Point operator/(real num, const Point& vec) { return {num/vec.x, num/vec.y}; }
 
-inline Point operator*(const Point& vec, real num)
-{
-    return {num*vec.x, num*vec.y};
-}
+inline Point operator*(const Point& vec, real num) { return {num*vec.x, num*vec.y}; }
 
-inline Point operator/(const Point& vec, real num)
-{
-    return {vec.x/num, vec.y/num};
-}
+inline Point operator/(const Point& vec, real num) { return {vec.x/num, vec.y/num}; }
 
 // dot product
-inline real operator*(const Point& A, const Point& B)
-{
-    return (A.x*B.x + A.y*B.y);
-}
+inline real operator*(const Point& A, const Point& B) { return (A.x*B.x + A.y*B.y); }
 
 inline real distancesq(const Point& A, const Point& B)
 {
@@ -283,10 +253,7 @@ inline real distancesq(const Point& A, const Point& B)
     return dx*dx + dy*dy;
 }
 
-inline real distance(const Point& A, const Point& B)
-{
-    return std::sqrt(distancesq(A, B));
-}
+inline real distance(const Point& A, const Point& B) { return std::sqrt(distancesq(A, B)); }
 
 inline real lengthsq(const Point& A) { return A.LengthSq(); }
 

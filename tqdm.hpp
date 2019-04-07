@@ -85,9 +85,7 @@ public:
     using reference = typename ForwardIter::reference;
     using parent_t = tqdm_for_lvalues<ForwardIter>;
 
-    iter_wrapper(ForwardIter it, parent_t* parent)
-        : current_(it), parent_(parent)
-    {}
+    iter_wrapper(ForwardIter it, parent_t* parent) : current_(it), parent_(parent) {}
 
     auto operator*() { return *current_; }
 
@@ -119,9 +117,7 @@ public:
     using difference_type = index;
 
     tqdm_for_lvalues(ForwardIter begin, ForwardIter end)
-        : first_(begin, this)
-        , last_(end, this)
-        , num_iters_(std::distance(begin, end))
+        : first_(begin, this), last_(end, this), num_iters_(std::distance(begin, end))
     {}
 
     tqdm_for_lvalues(ForwardIter begin, ForwardIter end, index total)
@@ -158,8 +154,7 @@ public:
 
     void update()
     {
-        if (time_since_refresh() > min_time_per_update_ || iters_done_ == 0 ||
-            iters_left() == 0)
+        if (time_since_refresh() > min_time_per_update_ || iters_done_ == 0 || iters_left() == 0)
         {
             reset_refresh_timer();
             print_progress();
@@ -203,8 +198,8 @@ private:
 
         std::stringstream bar;
 
-        bar << '\r' << prefix_ << '{' << std::fixed << std::setprecision(1)
-            << std::setw(4) << 100*complete << "%} ";
+        bar << '\r' << prefix_ << '{' << std::fixed << std::setprecision(1) << std::setw(4)
+            << 100*complete << "%} ";
 
         print_bar(bar, complete);
 
@@ -222,16 +217,12 @@ private:
         os_->flags(flags);
     }
 
-    double calc_advancement() const
-    {
-        return iters_done_/(num_iters_ + 0.0000000000001);
-    }
+    double calc_advancement() const { return iters_done_/(num_iters_ + 0.0000000000001); }
 
     void print_bar(std::stringstream& ss, double filled) const
     {
         auto num_filled = static_cast<index>(std::round(filled*bar_size_));
-        ss << '[' << std::string(num_filled, '#')
-           << std::string(bar_size_ - num_filled, ' ') << ']';
+        ss << '[' << std::string(num_filled, '#') << std::string(bar_size_ - num_filled, ' ') << ']';
     }
 
     double time_since_refresh() const { return refresh_.peek(); }
@@ -259,8 +250,7 @@ template <class Container>
 tqdm_for_lvalues(Container&)->tqdm_for_lvalues<typename Container::iterator>;
 
 template <class Container>
-tqdm_for_lvalues(const Container&)
-  ->tqdm_for_lvalues<typename Container::const_iterator>;
+tqdm_for_lvalues(const Container&)->tqdm_for_lvalues<typename Container::const_iterator>;
 
 // -------------------- tqdm_for_rvalues --------------------
 
@@ -272,9 +262,7 @@ public:
     using const_iterator = typename Container::const_iterator;
     using value_type = typename Container::value_type;
 
-    explicit tqdm_for_rvalues(Container&& C)
-        : C_(std::forward<Container>(C)), tqdm_(C_)
-    {}
+    explicit tqdm_for_rvalues(Container&& C) : C_(std::forward<Container>(C)), tqdm_(C_) {}
 
     auto begin() { return tqdm_.begin(); }
 
@@ -295,10 +283,7 @@ public:
 
     void advance(index amount) { tqdm_.advance(amount); }
 
-    void manually_set_advancement(double to)
-    {
-        tqdm_.manually_set_advancement(to);
-    }
+    void manually_set_advancement(double to) { tqdm_.manually_set_advancement(to); }
 
 private:
     Container C_;
@@ -372,15 +357,9 @@ public:
         return *this;
     }
 
-    difference_type operator-(const int_iterator& other) const
-    {
-        return value_ - other.value_;
-    }
+    difference_type operator-(const int_iterator& other) const { return value_ - other.value_; }
 
-    bool operator!=(const int_iterator& other) const
-    {
-        return value_ != other.value_;
-    }
+    bool operator!=(const int_iterator& other) const { return value_ != other.value_; }
 
 private:
     IntType value_;

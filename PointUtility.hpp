@@ -38,5 +38,3 @@ int signof(const T& a)
         return -1;
     return 0;
 }
-
-

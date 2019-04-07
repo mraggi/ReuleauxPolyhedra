@@ -70,7 +70,6 @@ inline void replace_by_smaller(double& a, double b)
         a = b;
 }
 
-
 // template <class T>
 // std::ostream& operator<<(std::ostream& os, const vector<vector<T>>& A)
 // {
