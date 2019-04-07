@@ -68,6 +68,18 @@ public:
 
     idx population_size() const { return X.size(); }
 
+    void insert_individual(const Vector& I)
+    {
+        double cost = f(I);
+        if (cost < best_cost)
+        {
+            best_cost = cost;
+            best = I;
+        }
+        X.push_back(I);
+        costs.push_back(cost);
+    }
+    
 private:
     std::array<idx, 3> pick_three() const
     {

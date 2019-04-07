@@ -14,7 +14,7 @@ struct DiffEvoParams
     int population_size {40}; 
     int num_epochs {10000000};
     double force {0.5};
-    double change_prob {0.3};
+    double change_prob {0.4};
 };
 
 struct UnitDistanceGraph
@@ -49,7 +49,7 @@ struct UnitDistanceGraph
                 } 
                 else
                 {
-                    if (d < 0.1 || d > 0.95)
+                    if (d < 0.08 || d > 0.95)
                         total += 10.;
                 }
             }
@@ -65,7 +65,7 @@ std::vector<Point3d> FindUnitDistEmbedding(const Graph& G, const DiffEvoParams& 
     int n = G.num_vertices();
     
     auto population = Population(P.population_size);
-    std::generate(population.begin(), population.end(), [n](){ return generate_random_points(n, 10.); });
+    std::generate(population.begin(), population.end(), [n](){ return generate_random_points(n, 2.); });
     std::cout << population[0] << std::endl;
     
     UnitDistanceGraph U(G);
@@ -76,23 +76,33 @@ std::vector<Point3d> FindUnitDistEmbedding(const Graph& G, const DiffEvoParams& 
     
     auto pbar = tq::trange(P.num_epochs);
     
+    int how_many_to_add = P.population_size*0.5;
+    int add_every_nth = P.num_epochs/how_many_to_add;
+    
     for (int epoch : pbar)
     {
         double prob = R.random_real(P.change_prob/2, P.change_prob*1.5);
         double force = R.random_real(P.force/2, P.force*1.5);
         D.step(prob, force);
-        pbar << "Best: " << D.best_cost;
-        if (D.best_cost < 0.0000000000001)
+        pbar << "Best: " << D.best_cost << " at epoch " << epoch << " with a population of: " << D.population_size();
+        
+        if (D.best_cost < 1.e-10)
             break;
+        
+        if ((epoch+1)%add_every_nth == 0)
+        {
+            D.insert_individual(generate_random_points(n, 2.));
+        }
     }
     
-    return {};
+    return D.best;
 }
 
 
 
 int main(int argc, char* argv[])
 {
+    
     std::vector<std::string> args(argv, argv + argc);
 
     if (argc != 2)
@@ -100,16 +110,27 @@ int main(int argc, char* argv[])
         std::cout << "Usage: " << args[0] << " <FILE>" << std::endl;
         return 1;
     }
-
-    for (GraphAndUnitDistanceGraph& GFU : ParseFile(args[1]))
+    
+    auto ALL = ParseFile(args[1]);
+    int i = 0;
+    
+    for (GraphAndUnitDistanceGraph& GFU : ALL)
     {
-        std::cout << "# Graph" << std::endl;
-        std::cout << GFU.U << std::endl;
+        std::cout << "# Original Graph" << std::endl;
+        std::cout << GFU.G << std::endl;
  
+        std::cout << "# Unit Distance Graph" << std::endl;
+        std::cout << GFU.U << std::endl;
+        
         auto embedding = FindUnitDistEmbedding(GFU.U);
         
-        std::cout << "# Embedding" << std::endl;
+        UnitDistanceGraph U(GFU.U);
+        double cost = U(embedding);
+        std::cout << "# Embedding (with cost " << cost << ")\n";
         std::cout << embedding << std::endl;
+        
+        ++i;
+        std::cerr << "\nDone: " << i << " of " << ALL.size() << std::endl;
 //         break;
     }
 
