@@ -12,7 +12,7 @@ using Population = std::vector<Individual>;
 struct DiffEvoParams
 {
     int population_size{40};
-    int num_epochs{5000000};
+    int num_epochs{1000000};
     double force{0.5};
     double change_prob{0.5};
 };
@@ -166,46 +166,47 @@ std::vector<Point3d> FindUnitDistEmbedding(const Graph& G, const DiffEvoParams& 
     int n = G.num_vertices();
     UnitDistanceGraph U(G);
 
-    auto population = Population(P.population_size);
-    std::generate(population.begin(), population.end(), [n]() {
-        return generate_random_points(n, 2.);
-    });
-
-    DifferentialEvolver D(population, U);
-
-    Random R;
-
-    auto pbar = tq::trange(P.num_epochs);
-
-    int how_many_to_add = 2*P.population_size;
-    int add_every_nth = P.num_epochs/how_many_to_add;
-
-    Normalize normalizer(U, R);
-
-    for (int epoch : pbar)
+    for (int attempt = 0; attempt < 20; ++attempt)
     {
-        double prob = R.random_real(P.change_prob/2, P.change_prob*1.5);
-        double force = R.random_real(P.force/2, P.force*1.5);
+        auto population = Population(P.population_size);
+        std::generate(population.begin(), population.end(), [n]() {
+            return generate_random_points(n, 2.);
+        });
 
-        D.step(prob, force, normalizer);
+        DifferentialEvolver D(population, U);
 
-        pbar << "Best: " << D.best_cost << " at epoch " << epoch
-             << " with a population of: " << D.population_size();
+        Random R;
 
-        if (D.best_cost < 1.e-14)
-            return D.best;
+        auto pbar = tq::trange(P.num_epochs);
 
-        if ((epoch + 1)%add_every_nth == 0)
+        int how_many_to_add = P.population_size;
+        int add_every_nth = P.num_epochs/(2*how_many_to_add);
+
+        Normalize normalizer(U, R);
+
+        for (int epoch : pbar)
         {
-            auto W = generate_random_points(n, 2.);
-            if (R.random_real(0.,1.) < 0.5)
-                U.PhysicsMutator(W, 1000);
-            D.insert_individual(W);
+            double prob = R.random_real(P.change_prob/2, P.change_prob*1.5);
+            double force = R.random_real(P.force/2, P.force*1.5);
+
+            D.step(prob, force, normalizer);
+
+            pbar << "Best: " << D.best_cost << " at epoch " << epoch
+                << " with a population of: " << D.population_size();
+
+            if (D.best_cost < 1.e-14)
+                return D.best;
+
+            if (epoch < P.num_epochs/2 && (epoch + 1)%add_every_nth == 0)
+            {
+                auto W = generate_random_points(n, 2.);
+                if (R.random_real(0.,1.) < 0.5)
+                    U.PhysicsMutator(W, 1000);
+                D.insert_individual(W);
+            }
         }
     }
-
-    std::cout << "# WARNING: failed to find good embedding" << std::endl;
-    return D.best;
+    return std::vector<Point3d>();
 }
 
 int main(int argc, char* argv[])
@@ -232,18 +233,26 @@ int main(int argc, char* argv[])
     for (int i = start; i < end; ++i)
     {
         GraphAndUnitDistanceGraph& GFU = ALL[i];
-        std::cout << "# Original Graph " << i << " in [" << start << ", " << end << ")" << std::endl;
+        std::cout << "\n\n# Original Graph " << i << " in [" << start << ", " << end << ")" << std::endl;
         std::cout << GFU.G << std::endl;
 
-        std::cout << "# Unit Distance Graph" << std::endl;
+        std::cout << "# Unit Distance Graph " << i << std::endl;
         std::cout << GFU.U << std::endl;
 
         auto embedding = FindUnitDistEmbedding(GFU.U);
 
-        UnitDistanceGraph U(GFU.U);
-        double cost = U(embedding);
-        std::cout << "# Embedding (with cost " << cost << ")\n";
-        std::cout << embedding << std::endl;
+        if (embedding.empty())
+        {
+            std::cout << "# WARNING!!: failed to find good embedding!!!" << std::endl;
+        } else
+        {
+            UnitDistanceGraph U(GFU.U);
+            double cost = U(embedding);
+            std::cout << "# Embedding " << i << " (with cost " << cost << ")\n";
+            std::cout << embedding << std::endl;
+        }
+        
+        
 
         std::cerr << "\nDone: " << i << " in range [" << start << ", " << end << ")" << std::endl;
     }
