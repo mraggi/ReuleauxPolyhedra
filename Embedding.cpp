@@ -243,7 +243,7 @@ int main(int argc, char* argv[])
 
         if (embedding.empty())
         {
-            std::cout << "# WARNING!!: failed to find good embedding!!!" << std::endl;
+            std::cout << "# WARNING!!: failed to find good embedding for graph " << i << "!!!" << std::endl;
         } else
         {
             UnitDistanceGraph U(GFU.U);
