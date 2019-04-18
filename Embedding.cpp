@@ -51,7 +51,7 @@ struct UnitDistanceGraph
                 }
                 else
                 {
-                    if (d < 0.08 || d > 0.95)
+                    if (d < 0.05 || d > 0.95)
                         total += 10.;
                 }
             }
@@ -170,7 +170,7 @@ std::vector<Point3d> FindUnitDistEmbedding(const Graph& G, const DiffEvoParams& 
     {
         auto population = Population(P.population_size);
         std::generate(population.begin(), population.end(), [n]() {
-            return generate_random_points(n, 2.);
+            return generate_random_points(n, 4.);
         });
 
         DifferentialEvolver D(population, U);
@@ -199,7 +199,7 @@ std::vector<Point3d> FindUnitDistEmbedding(const Graph& G, const DiffEvoParams& 
 
             if (epoch < P.num_epochs/2 && (epoch + 1)%add_every_nth == 0)
             {
-                auto W = generate_random_points(n, 2.);
+                auto W = generate_random_points(n, 5.);
                 if (R.random_real(0.,1.) < 0.5)
                     U.PhysicsMutator(W, 1000);
                 D.insert_individual(W);
