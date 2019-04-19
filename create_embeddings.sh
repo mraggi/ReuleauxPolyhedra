@@ -9,7 +9,7 @@
 #./build/embedding Data/data10.txt > Data/embeddings10.txt
 
 # De 11 son 24
-./build/embedding Data/data11.txt > Data/embeddings11.txt &
+#./build/embedding Data/data11.txt > Data/embeddings11.txt &
 
 
 # De 12 son 72
@@ -26,10 +26,10 @@
 
 # De 14 son 674
 ./build/embedding Data/data14.txt > Data/aembeddings14_0.txt 0 25 &
-./build/embedding Data/data14.txt > Data/aembeddings14_1.txt 25 50 &
-./build/embedding Data/data14.txt > Data/aembeddings14_2.txt 50 75 &
-./build/embedding Data/data14.txt > Data/aembeddings14_3.txt 75 100 &
-./build/embedding Data/data14.txt > Data/aembeddings14_4.txt 100 125 &
+#./build/embedding Data/data14.txt > Data/aembeddings14_1.txt 25 50 &
+#./build/embedding Data/data14.txt > Data/aembeddings14_2.txt 50 75 &
+#./build/embedding Data/data14.txt > Data/aembeddings14_3.txt 75 100 &
+#./build/embedding Data/data14.txt > Data/aembeddings14_4.txt 100 125 &
 ./build/embedding Data/data14.txt > Data/aembeddings14_5.txt 125 150 &
 ./build/embedding Data/data14.txt > Data/aembeddings14_6.txt 150 175 &
 ./build/embedding Data/data14.txt > Data/aembeddings14_7.txt 175 200 &
