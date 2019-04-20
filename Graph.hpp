@@ -75,13 +75,13 @@ private:
 
 inline std::ostream& operator<<(std::ostream& os, const Graph& G)
 {
-    os << G.num_vertices() << ' ' << G.num_edges();
+    os << G.num_vertices() << ' ' << G.num_edges() << '\n';
     for (Vertex u : G.vertices())
     {
         for (auto v : G.neighbors(u))
         {
             if (u < v)
-                os << u << " " << v << '\n';
+                os << u << ' ' << v << '\n';
         }
     }
     return os;
