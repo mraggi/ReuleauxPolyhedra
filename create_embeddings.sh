@@ -44,11 +44,11 @@
 #./build/embedding Data/data14.txt > Data/aembeddings14_16.txt 400 425 &
 #./build/embedding Data/data14.txt > Data/aembeddings14_17.txt 425 450 &
 #./build/embedding Data/data14.txt > Data/aembeddings14_18.txt 450 475 &
-./build/embedding Data/data14.txt > Data/aembeddings14_19.txt 475 500 &
-./build/embedding Data/data14.txt > Data/aembeddings14_20.txt 500 525 &
-./build/embedding Data/data14.txt > Data/aembeddings14_21.txt 525 550 &
-./build/embedding Data/data14.txt > Data/aembeddings14_22.txt 550 575 &
-./build/embedding Data/data14.txt > Data/aembeddings14_23.txt 575 600 &
-./build/embedding Data/data14.txt > Data/aembeddings14_24.txt 600 625 &
-./build/embedding Data/data14.txt > Data/aembeddings14_25.txt 625 650 &
-./build/embedding Data/data14.txt > Data/aembeddings14_26.txt 650 674 
+#./build/embedding Data/data14.txt > Data/aembeddings14_19.txt 475 500 &
+#./build/embedding Data/data14.txt > Data/aembeddings14_20.txt 500 525 &
+#./build/embedding Data/data14.txt > Data/aembeddings14_21.txt 525 550 &
+#./build/embedding Data/data14.txt > Data/aembeddings14_22.txt 550 575 &
+#./build/embedding Data/data14.txt > Data/aembeddings14_23.txt 575 600 &
+#./build/embedding Data/data14.txt > Data/aembeddings14_24.txt 600 625 &
+#./build/embedding Data/data14.txt > Data/aembeddings14_25.txt 625 650 &
+#./build/embedding Data/data14.txt > Data/aembeddings14_26.txt 650 674 
