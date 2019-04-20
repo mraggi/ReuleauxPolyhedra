@@ -36,7 +36,7 @@ struct UnitDistanceGraph
     double operator()(const Individual& I) const
     {
         double total = 0.0;
-        double sum_dist_sq = 0.0;
+        //         double sum_dist_sq = 0.0;
         int n = A.size();
         for (int i = 1; i < n; ++i)
         {
@@ -54,16 +54,14 @@ struct UnitDistanceGraph
                 {
                     if (d < 0.05 || d > 0.95)
                         total += 10.;
-                    sum_dist_sq += d;
+                    //                     sum_dist_sq += d;
                 }
             }
         }
-        
-        if (total < 1e-14)
-        {
-            return -sum_dist_sq;
-        }
-        
+
+        //         if (total < 1e-14)
+        //             return -sum_dist_sq;
+
         return total;
     }
 
@@ -174,9 +172,9 @@ std::vector<Point3d> FindUnitDistEmbedding(const Graph& G, const DiffEvoParams& 
     int n = G.num_vertices();
     UnitDistanceGraph U(G);
 
-    std::vector<Point3d> result;
-    double best_cost = 9999999.;
-    
+    //     std::vector<Point3d> result;
+    //     double best_cost = 9999999.;
+
     for (int attempt = 0; attempt < 20; ++attempt)
     {
         auto population = Population(P.population_size);
@@ -203,32 +201,31 @@ std::vector<Point3d> FindUnitDistEmbedding(const Graph& G, const DiffEvoParams& 
             D.step(prob, force, normalizer);
 
             pbar << "Best: " << D.best_cost << " at epoch " << epoch
-                << " with a population of: " << D.population_size();
+                 << " with a population of: " << D.population_size();
 
-//             if (D.best_cost < 1.e-14)
-//                 return D.best;
+            if (D.best_cost < 1.e-14)
+                return D.best;
 
             if (epoch < P.num_epochs/2 && (epoch + 1)%add_every_nth == 0)
             {
                 auto W = generate_random_points(n, 5.);
-                if (R.random_real(0.,1.) < 0.5)
+                if (R.random_real(0., 1.) < 0.5)
                     U.PhysicsMutator(W, 1000);
                 D.insert_individual(W);
             }
-            
-            if (D.best_cost < best_cost)
-            {
-                best_cost = D.best_cost;
-                result = D.best;
-            }
-            
+
+            //             if (D.best_cost < best_cost)
+            //             {
+            //                 best_cost = D.best_cost;
+            //                 result = D.best;
+            //             }
         }
     }
-    
-    if (best_cost > 0)
-        return std::vector<Point3d>();
-        
-    return result;
+
+    //     if (best_cost > 0)
+    return std::vector<Point3d>();
+
+    //     return result;
 }
 
 int main(int argc, char* argv[])
@@ -253,7 +250,7 @@ int main(int argc, char* argv[])
     }
 
     std::cout << std::setprecision(15);
-    
+
     for (int i = start; i < end; ++i)
     {
         GraphAndUnitDistanceGraph& GFU = ALL[i];
@@ -267,15 +264,17 @@ int main(int argc, char* argv[])
 
         if (embedding.empty())
         {
-            std::cout << "# WARNING!!: failed to find good embedding for graph " << i << "!!!" << std::endl;
-        } else
+            std::cout << "# WARNING!!: failed to find good embedding for graph " << i << "!!!"
+                      << std::endl;
+        }
+        else
         {
             UnitDistanceGraph U(GFU.U);
             double cost = U(embedding);
             std::cout << "# Embedding " << i << " (with cost " << cost << ")\n";
             std::cout << embedding << "\n\n\n";
         }
-        
+
         std::cerr << "\nDone: " << i << " in range [" << start << ", " << end << ")" << std::endl;
     }
 

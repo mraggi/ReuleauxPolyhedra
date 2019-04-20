@@ -63,9 +63,7 @@ std::vector<T> split_line_into(const std::string& line)
 {
     std::istringstream is(line);
     std::vector<T> result;
-    std::copy(std::istream_iterator<T>(is),
-              std::istream_iterator<T>(),
-              std::back_inserter(result));
+    std::copy(std::istream_iterator<T>(is), std::istream_iterator<T>(), std::back_inserter(result));
 
     return result;
 }
