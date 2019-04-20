@@ -13,9 +13,9 @@ using Face = std::vector<Vertex>;
 
 struct Edge
 {
-    Edge(Vertex a, Vertex b) : a(a), b(b) {}
-    Vertex a;
-    Vertex b;
+    Edge(Vertex a, Vertex b) : u(a), v(b) {}
+    Vertex u;
+    Vertex v;
 };
 
 bool operator<(const Edge& A, const Edge& B);
@@ -98,14 +98,14 @@ struct CSPSolver
 
     void ProcessEdge(const Edge& e, std::set<Edge>& EdgesToProcess)
     {
-        for (Vertex x : B.neighborsX(e.a))
+        for (Vertex x : B.neighborsX(e.u))
         {
-            if (!is_there_valid_assignment(x, e, DualG, B))
+            if (!is_there_valid_assignment(x, e))
             {
-                B.remove_edge(e.a, x);
-                for (Vertex v : G.neighbors(e.a))
+                B.remove_edge(e.u, x);
+                for (Vertex v : G.neighbors(e.u))
                 {
-                    EdgesToProcess.emplace(v, e.a);
+                    EdgesToProcess.emplace(v, e.u);
                 }
             }
         }
@@ -152,6 +152,16 @@ struct CSPSolver
         }
 
         return results;
+    }
+
+    bool is_there_valid_assignment(Vertex x, const Edge& e)
+    {
+        for (auto w : B.neighborsX(e.v))
+        {
+            if (w != x && DualG.are_neighbors(x, w))
+                return true;
+        }
+        return false;
     }
 
     std::vector<partial_sol> DFSSearch()
@@ -215,7 +225,7 @@ struct CSPSolver
                 ss << F[tau[v]] << '\n';
             }
 
-            ss << "# Diameter graph\n";
+            ss << "\n# Diameter graph\n";
             ss << G.num_vertices() << ' ' << G.num_edges() << '\n';
 
             for (Vertex u : G.vertices())
