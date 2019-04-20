@@ -52,7 +52,7 @@ public:
         return total/2;
     }
 
-    inline const std::vector<int>& neighbors(Vertex n) const { return graph_[n]; }
+    inline const std::vector<Vertex>& neighbors(Vertex n) const { return graph_[n]; }
 
     void sort_neighbors()
     {

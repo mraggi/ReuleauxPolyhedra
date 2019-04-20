@@ -1,7 +1,7 @@
-#include "BuildBipartite.hpp"
-#include "Graph.hpp"
-#include "ReadFile.hpp"
-#include "utility.hpp"
+#include "CSPSolver.hpp"
+#include "utils/Graph.hpp"
+#include "utils/ReadFile.hpp"
+#include "utils/utility.hpp"
 #include <iostream>
 #include <sstream>
 
@@ -74,9 +74,10 @@ int main(int argc, char* argv[])
 
         total += S.PrintSolutions(ss);
     }
-    std::cout << "# Total Embeddings" << std::endl;
-    std::cout << total << std::endl;
-    std::cout << ss.str() << std::endl;
+
+    std::cout << "# Total Embeddings\n";
+    std::cout << total << '\n';
+    std::cout << ss.str() << '\n';
 
     return 0;
 }

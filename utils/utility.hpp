@@ -14,9 +14,10 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& V)
     return os;
 }
 
-inline void remove_from_vector(std::vector<Vertex>& V, Vertex x)
+template <class T>
+void remove_from_vector(std::vector<T>& V, const T& x)
 {
-    auto it = find(V.begin(), V.end(), x);
+    auto it = std::find(V.begin(), V.end(), x);
     *it = V.back();
     V.pop_back();
 }
@@ -68,13 +69,15 @@ std::vector<T> split_line_into(const std::string& line)
     return result;
 }
 
-inline void replace_by_bigger(double& a, double b)
+template <class T>
+void replace_by_bigger(T& a, const T& b)
 {
     if (a < b)
         a = b;
 }
 
-inline void replace_by_smaller(double& a, double b)
+template <class T>
+void replace_by_smaller(T& a, const T& b)
 {
     if (a > b)
         a = b;

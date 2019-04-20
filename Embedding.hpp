@@ -1,20 +1,20 @@
 #pragma once
 
-#include "BuildBipartite.hpp"
-#include "Graph.hpp"
-#include "Point3d.hpp"
-#include "Random.hpp"
-#include "utility.hpp"
+#include "CSPSolver.hpp"
+#include "utils/Graph.hpp"
+#include "utils/Point3d.hpp"
+#include "utils/Random.hpp"
+#include "utils/utility.hpp"
 
-struct GraphAndUnitDistanceGraph
+struct GraphAndDiameterGraph
 {
-    GraphAndUnitDistanceGraph(Graph g, std::vector<Face> f, Graph d)
-        : G(std::move(g)), F(std::move(f)), U(std::move(d))
+    GraphAndDiameterGraph(Graph g, std::vector<Face> f, Graph d)
+        : G(std::move(g)), F(std::move(f)), D(std::move(d))
     {}
 
     Graph G;
     std::vector<Face> F;
-    Graph U;
+    Graph D;
 };
 
 inline Graph read_graph(const std::vector<std::string>& data, int& curr_line, int n = -1, int m = -1)
@@ -49,9 +49,9 @@ inline std::vector<Face> read_faces(const std::vector<std::string>& data, int& c
     return F;
 }
 
-inline std::vector<GraphAndUnitDistanceGraph> ParseFile(const std::string& filename)
+inline std::vector<GraphAndDiameterGraph> ParseFile(const std::string& filename)
 {
-    std::vector<GraphAndUnitDistanceGraph> result;
+    std::vector<GraphAndDiameterGraph> result;
 
     std::vector<std::string> data = read_txt_file(filename, true);
 

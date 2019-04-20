@@ -1,6 +1,6 @@
 #include "Embedding.hpp"
-#include "TimeHelpers.hpp"
-#include "tqdm.hpp"
+#include "utils/TimeHelpers.hpp"
+#include "utils/tqdm.hpp"
 #include <cassert>
 #include <cmath>
 #include <iomanip>

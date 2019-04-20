@@ -1,8 +1,8 @@
 #include "Embedding.hpp"
-#include "BuildBipartite.hpp"
-#include "DifferentialEvolution.hpp"
-#include "TimeHelpers.hpp"
-#include "tqdm.hpp"
+#include "CSPSolver.hpp"
+#include "utils/DifferentialEvolution.hpp"
+#include "utils/TimeHelpers.hpp"
+#include "utils/tqdm.hpp"
 #include <cmath>
 #include <iomanip>
 
@@ -17,11 +17,11 @@ struct DiffEvoParams
     double change_prob{0.5};
 };
 
-struct UnitDistanceGraph
+struct DiameterGraph
 {
     using vectors = std::vector<Point3d>;
 
-    UnitDistanceGraph(const Graph& G) : A(G.num_vertices(), Row(G.num_vertices(), 0))
+    DiameterGraph(const Graph& G) : A(G.num_vertices(), Row(G.num_vertices(), 0))
     {
         for (auto u : G.vertices())
         {
@@ -149,7 +149,7 @@ void clamp(Point3d& p, double r)
 
 struct Normalize
 {
-    Normalize(const UnitDistanceGraph& u, Random& r) : U(u), R(r) {}
+    Normalize(const DiameterGraph& u, Random& r) : D(u), R(r) {}
     void operator()(Individual& I)
     {
         //         if (R.random_real(0.,1.) < 0.01)
@@ -163,14 +163,14 @@ struct Normalize
         }
     }
 
-    const UnitDistanceGraph& U;
+    const DiameterGraph& D;
     Random& R;
 };
 
 std::vector<Point3d> FindUnitDistEmbedding(const Graph& G, const DiffEvoParams& P = DiffEvoParams())
 {
     int n = G.num_vertices();
-    UnitDistanceGraph U(G);
+    DiameterGraph U(G);
 
     //     std::vector<Point3d> result;
     //     double best_cost = 9999999.;
@@ -253,14 +253,14 @@ int main(int argc, char* argv[])
 
     for (int i = start; i < end; ++i)
     {
-        GraphAndUnitDistanceGraph& GFU = ALL[i];
+        GraphAndDiameterGraph& GFD = ALL[i];
         std::cout << "# Original Graph " << i << " in [" << start << ", " << end << ")" << std::endl;
-        std::cout << GFU.G << std::endl;
+        std::cout << GFD.G << std::endl;
 
         std::cout << "# Unit Distance Graph " << i << std::endl;
-        std::cout << GFU.U << std::endl;
+        std::cout << GFD.D << std::endl;
 
-        auto embedding = FindUnitDistEmbedding(GFU.U);
+        auto embedding = FindUnitDistEmbedding(GFD.D);
 
         if (embedding.empty())
         {
@@ -269,8 +269,8 @@ int main(int argc, char* argv[])
         }
         else
         {
-            UnitDistanceGraph U(GFU.U);
-            double cost = U(embedding);
+            DiameterGraph D(GFD.D);
+            double cost = D(embedding);
             std::cout << "# Embedding " << i << " (with cost " << cost << ")\n";
             std::cout << embedding << "\n\n\n";
         }

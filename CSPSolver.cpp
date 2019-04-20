@@ -1,6 +1,6 @@
-#include "BuildBipartite.hpp"
+#include "CSPSolver.hpp"
 
-bool operator<(const BlackEdge& A, const BlackEdge& B)
+bool operator<(const Edge& A, const Edge& B)
 {
     if (A.a != B.a)
         return A.a < B.a;
@@ -18,7 +18,7 @@ bool do_faces_intersect(const Face& AA, const Face& BB)
     return intersection.size() == 2;
 }
 
-bool is_there_valid_assignment(Vertex x, const BlackEdge& e, const Graph& C, const BipartiteGraph& B)
+bool is_there_valid_assignment(Vertex x, const Edge& e, const Graph& C, const BipartiteGraph& B)
 {
     Vertex b = e.b;
     for (auto w : B.neighborsX(b))
