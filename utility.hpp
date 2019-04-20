@@ -47,12 +47,24 @@ inline std::vector<std::string> read_txt_file(const std::string& filename,
     return result;
 }
 
-inline std::vector<int> split_line_into_ints(const std::string& line)
+inline std::string with_char_removed(const std::string& s, char c)
+{
+    std::string b;
+    for (auto x : s)
+    {
+        if (x != c)
+            b.push_back(x);
+    }
+    return b;
+}
+
+template <class T>
+std::vector<T> split_line_into(const std::string& line)
 {
     std::istringstream is(line);
-    std::vector<int> result;
-    std::copy(std::istream_iterator<int>(is),
-              std::istream_iterator<int>(),
+    std::vector<T> result;
+    std::copy(std::istream_iterator<T>(is),
+              std::istream_iterator<T>(),
               std::back_inserter(result));
 
     return result;

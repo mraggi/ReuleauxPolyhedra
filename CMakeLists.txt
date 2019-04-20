@@ -10,3 +10,4 @@ add_definitions(-Ofast)
 
 add_executable(reuleaux main.cpp BuildBipartite.cpp)
 add_executable(embedding Embedding.cpp)
+add_executable(to_stl_format to_stl_format.cpp)

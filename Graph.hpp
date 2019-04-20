@@ -75,7 +75,7 @@ private:
 
 inline std::ostream& operator<<(std::ostream& os, const Graph& G)
 {
-    os << G.num_vertices() << " vertices\n";
+    os << G.num_vertices() << ' ' << G.num_edges();
     for (Vertex u : G.vertices())
     {
         for (auto v : G.neighbors(u))
