@@ -18,7 +18,8 @@
 4 5
 5 6
 7 8
-# Faces (in order)
+
+# Faces (sorted by isomorphism)
 1 2 7 8 4 5 
 0 4 8 3 
 0 5 4 
@@ -28,7 +29,8 @@
 3 8 7 
 0 6 5 
 0 1 6 
-# Unit distance graph
+
+# Diameter graph
 9 16
 0 1
 0 2
@@ -65,7 +67,8 @@
 6 8
 6 7
 7 8
-# Faces (in order)
+
+# Faces (sorted by isomorphism)
 1 6 8 3 
 0 3 8 2 
 1 3 5 
@@ -75,7 +78,8 @@
 0 4 3 
 3 4 5 
 0 1 5 4 
-# Unit distance graph
+
+# Diameter graph
 9 16
 0 1
 0 6
@@ -112,7 +116,8 @@
 5 8
 6 8
 6 7
-# Faces (in order)
+
+# Faces (sorted by isomorphism)
 3 6 8 5 
 3 7 6 
 4 8 6 7 
@@ -122,7 +127,8 @@
 0 2 1 
 1 2 5 
 0 3 2 
-# Unit distance graph
+
+# Diameter graph
 9 16
 0 3
 0 6
@@ -159,7 +165,8 @@
 5 6
 6 7
 7 8
-# Faces (in order)
+
+# Faces (sorted by isomorphism)
 5 6 7 8 
 3 8 7 
 4 5 8 
@@ -169,7 +176,8 @@
 0 4 8 3 
 0 1 5 4 
 0 2 6 1 
-# Unit distance graph
+
+# Diameter graph
 9 16
 0 5
 0 6

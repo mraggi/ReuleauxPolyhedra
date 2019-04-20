@@ -26,8 +26,9 @@ bool is_there_valid_assignment(Vertex x, const Edge& e, const Graph& DualG, cons
 
 index_t first_minus_one(const std::vector<int>& P);
 
-struct CSPSolver
+class CSPSolver
 {
+public:
     CSPSolver(const Graph& v, const std::vector<Face>& f)
         : n(f.size()), G(v), F(f), DualG(f.size()), B(f.size(), f.size())
     {
@@ -36,6 +37,7 @@ struct CSPSolver
         ConstructBipartiteGraph();
     }
 
+private:
     void ConstructFaceGraph()
     {
         for (index_t j = 1; j < n; ++j)
@@ -74,13 +76,6 @@ struct CSPSolver
                 result.emplace(u, v);
             }
         }
-        return result;
-    }
-
-    Edge pop_first(std::set<Edge>& X)
-    {
-        Edge result = *X.begin();
-        X.erase(X.begin());
         return result;
     }
 
@@ -207,7 +202,8 @@ struct CSPSolver
 
         return solutions;
     }
-
+    
+public:
     // returns number of solutions
     int PrintSolutions(std::stringstream& ss)
     {

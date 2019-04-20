@@ -3,6 +3,7 @@
 #include <fstream>
 #include <istream>
 #include <sstream>
+#include <set>
 
 using index_t = std::ptrdiff_t;
 
@@ -81,6 +82,14 @@ void replace_by_smaller(T& a, const T& b)
 {
     if (a > b)
         a = b;
+}
+
+template <class T>
+T pop_first(std::set<T>& X)
+{
+    T result = *X.begin();
+    X.erase(X.begin());
+    return result;
 }
 
 // template <class T>
