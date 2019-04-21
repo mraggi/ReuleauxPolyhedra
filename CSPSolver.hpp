@@ -202,7 +202,7 @@ private:
 
         return solutions;
     }
-    
+
 public:
     // returns number of solutions
     int PrintSolutions(std::stringstream& ss)

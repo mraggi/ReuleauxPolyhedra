@@ -2,8 +2,8 @@
 
 #include <fstream>
 #include <istream>
-#include <sstream>
 #include <set>
+#include <sstream>
 
 using index_t = std::ptrdiff_t;
 
