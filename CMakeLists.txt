@@ -10,4 +10,4 @@ add_definitions(-Ofast)
 
 add_executable(cspsolver CSPSolver.cpp CSPSolvermain.cpp)
 add_executable(embedding Embedding.cpp)
-add_executable(to_stl_format to_scad_format.cpp)
+add_executable(to_scad_format to_scad_format.cpp)

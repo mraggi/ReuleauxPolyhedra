@@ -45,35 +45,58 @@ inline std::vector<Point3d> read_points(const std::vector<std::string>& data, in
     return result;
 }
 
+void center_points(std::vector<Point3d>& P)
+{
+    Point3d center;
+    for (auto& p : P)
+        center += p;
+    center /= double(P.size());
+    for (auto& p : P)
+        p -= center;
+}
+
 int main(int argc, char* argv[])
 {
+    using namespace std::string_literals;
     std::vector<std::string> args(argv, argv + argc);
 
-    if (argc < 2)
+    if (argc < 3)
     {
-        std::cerr << "Usage: " << args[0] << " <FILE>" << std::endl;
+        std::cerr << "Usage: " << args[0] << " <FILE> <OUTPUTFILE>" << std::endl;
         return 1;
     }
 
     auto txt_file = read_txt_file(args[1], true);
+    std::string outfilename = args[2];
 
-    int i = 0;
-    while (i < txt_file.size())
+    int curr_line = 0;
+    int i = -1;
+    while (curr_line < txt_file.size())
     {
-        auto G = read_graph(txt_file, i);
-        auto U = read_graph(txt_file, i);
-        auto P = read_points(txt_file, i);
-
-        std::cout << "$fn=240;\n"
+        ++i;
+        auto G = read_graph(txt_file, curr_line);
+        auto U = read_graph(txt_file, curr_line);
+        auto P = read_points(txt_file, curr_line);
+        
+        center_points(P);
+        
+        std::string ofn = outfilename + std::to_string(i) + ".scad"s;
+        
+        std::ofstream outfile(ofn); 
+        
+        if (!outfile)
+            std::cerr << "ERROR: Cannot open file " << ofn << " for writing." << std::endl;
+        
+        outfile << "$fn=240;\n"
                   << "use <lib.scad>;\n"
                   << "r=100;\n"
                   << "pts=r*[";
         for (auto p : P)
         {
-            std::cout << '[' << p.x << ", " << p.y << ", " << p.z << "], ";
+            outfile << '[' << p.x << ", " << p.y << ", " << p.z << "], ";
         }
-        std::cout << "\b\b];\n\n";
-        std::cout << "ayo=[";
+        outfile << "];\n\n";
+        outfile << "ayo=[";
         for (auto a : G.vertices())
         {
             for (auto b : G.neighbors(a))
@@ -81,13 +104,15 @@ int main(int argc, char* argv[])
                 if (a > b)
                     continue;
                 auto opposite = get_opposite_edge(U, a, b);
-                std::cout << "[" << a << ", " << b << ", " << opposite.first << ", "
+                if (a > opposite.first || a > opposite.second)
+                    continue;
+                outfile << "[" << a << ", " << b << ", " << opposite.first << ", "
                           << opposite.second << "], ";
             }
         }
-        std::cout << "\b\b];\n\n";
+        outfile << "];\n\n";
 
-        std::cout << "anchoconstante(pts,r,ayo);\n\n" << std::endl;
+        outfile << "anchoconstante(pts,r,ayo);\n\n" << std::endl;
     }
     return 0;
 }
