@@ -1,5 +1,7 @@
 # Reuleaux Polyhedra
 
+<!-- ![Meissner Body](https://raw.githubusercontent.com/mraggi/ReuleauxPolyhedra/master/meissner1.png "A constant width body") -->
+
 This is code used to generate Reuleaux polyhedra (and their associated Meissner constant-width bodies). See [the paper](https://arxiv.org/abs/1904.12761) for more details.
 
 If you simply want to see/download pretty constant-width bodies, check out the .stl files [here](https://github.com/mraggi/ReuleauxPolyhedra/tree/master/Data/STL).
