@@ -16,7 +16,7 @@ class Chronometer
 public:
     Chronometer() : start_(std::chrono::steady_clock::now()) {}
 
-    double Reset()
+    [[nodiscard]] double Reset()
     {
         auto previous = start_;
         start_ = std::chrono::steady_clock::now();
@@ -24,7 +24,7 @@ public:
         return elapsed_seconds(previous, start_);
     }
 
-    double Peek() const
+    [[nodiscard]] double Peek() const
     {
         auto now = std::chrono::steady_clock::now();
 

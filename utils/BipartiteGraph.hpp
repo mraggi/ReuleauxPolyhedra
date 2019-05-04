@@ -8,13 +8,13 @@ class BipartiteGraph
 public:
     BipartiteGraph(Vertex x, Vertex y) : m_X(x), m_Y(y) {}
 
-    int degreeX(int v) const { return m_X[v].size(); }
+    [[nodiscard]] int degreeX(Vertex v) const { return m_X[v].size(); }
 
-    size_t num_verticesX() const { return m_X.size(); }
+    [[nodiscard]] size_t num_verticesX() const { return m_X.size(); }
 
-    size_t num_verticesY() const { return m_Y.size(); }
+    [[nodiscard]] size_t num_verticesY() const { return m_Y.size(); }
 
-    size_t num_vertices() const { return num_verticesX() + num_verticesY(); }
+    [[nodiscard]] size_t num_vertices() const { return num_verticesX() + num_verticesY(); }
 
     void remove_edge(Vertex u, Vertex v)
     {
@@ -22,13 +22,13 @@ public:
         remove_from_vector(m_Y[v], u);
     }
 
-    const std::vector<std::vector<Vertex>>& X() const { return m_X; }
+    [[nodiscard]] const std::vector<std::vector<Vertex>>& X() const { return m_X; }
 
-    const std::vector<std::vector<Vertex>>& Y() const { return m_Y; }
+    [[nodiscard]] const std::vector<std::vector<Vertex>>& Y() const { return m_Y; }
 
-    const std::vector<Vertex>& neighborsX(Vertex a) const { return m_X[a]; }
+    [[nodiscard]] const std::vector<Vertex>& neighborsX(Vertex a) const { return m_X[a]; }
 
-    const std::vector<Vertex>& neighborsY(Vertex a) const { return m_Y[a]; }
+    [[nodiscard]] const std::vector<Vertex>& neighborsY(Vertex a) const { return m_Y[a]; }
 
     void add_edge(Vertex x, Vertex y)
     {

@@ -53,10 +53,10 @@ int main(int argc, char* argv[])
 {
     if (argc != 2)
     {
-        std::cout << "Usage: " << argv[0] << " <FILE>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <FILE>" << std::endl; //NOLINT
         return 1;
     }
-    std::string file(argv[1]);
+    std::string file(argv[1]); //NOLINT
 
     auto T = read_plantri_file(file);
 

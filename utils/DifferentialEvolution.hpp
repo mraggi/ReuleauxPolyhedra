@@ -15,7 +15,7 @@ public:
     using Population = std::vector<Vector>;
     using idx = std::ptrdiff_t;
 
-    DifferentialEvolver(Population InitialPopulation, Cost f) : f(f), X(InitialPopulation)
+    DifferentialEvolver(Population InitialPopulation, Cost f) : f(f), X(std::move(InitialPopulation))
     {
         if (population_size() < 4)
         {
@@ -125,8 +125,8 @@ private:
     std::vector<double> costs;
 
 public:
-    Vector best;
-    double best_cost{10000000.0};
+    Vector best; //NOLINT
+    double best_cost{10000000.0}; //NOLINT
 
 private:
     mutable Random random;

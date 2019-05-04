@@ -31,7 +31,7 @@ inline std::vector<Point3d> read_points(const std::vector<std::string>& data, in
     line = with_char_removed(line, ')');
 
     auto X = split_line_into<double>(line);
-    int n = X.size()/3;
+    auto n = static_cast<int>(X.size()/3);
 
     std::vector<Point3d> result(n);
 

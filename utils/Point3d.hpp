@@ -9,16 +9,16 @@ public:
     real y{0.};
     real z{0.};
 
-    Point3d() {}
+    Point3d() = default;
 
     Point3d(real X, real Y, real Z) : x(X), y(Y), z(Z) {}
 
-    real LengthSq() const { return x*x + y*y + z*z; }
-    real Length() const { return std::sqrt(LengthSq()); }
+    [[nodiscard]] real LengthSq() const { return x*x + y*y + z*z; }
+    [[nodiscard]] real Length() const { return std::sqrt(LengthSq()); }
 
-    real Distance(const Point3d& vec) const { return std::sqrt(DistanceSq(vec)); }
+    [[nodiscard]] real Distance(const Point3d& vec) const { return std::sqrt(DistanceSq(vec)); }
 
-    real DistanceSq(const Point3d& vec) const
+    [[nodiscard]] real DistanceSq(const Point3d& vec) const
     {
         real dX = (vec.x - x);
         real dY = (vec.y - y);
@@ -26,7 +26,7 @@ public:
         return dX*dX + dY*dY + dZ*dZ;
     }
 
-    bool IsCloserToFirstThanSecond(const Point3d& A, const Point3d& B) const
+    [[nodiscard]] bool IsCloserToFirstThanSecond(const Point3d& A, const Point3d& B) const
     {
         return DistanceSq(A) < DistanceSq(B);
     }
@@ -43,7 +43,7 @@ public:
         }
     }
 
-    Point3d Normalized() const
+    [[nodiscard]] Point3d Normalized() const
     {
         Point3d normalized = *this;
 
@@ -83,14 +83,14 @@ public:
         z *= m;
     }
 
-    Point3d WithLength(real r) const
+    [[nodiscard]] Point3d WithLength(real r) const
     {
         Point3d copy = *this;
         copy.SetLength(r);
         return copy;
     }
 
-    Point3d WithLengthSq(real r2) const
+    [[nodiscard]] Point3d WithLengthSq(real r2) const
     {
         Point3d copy = *this;
         copy.SetLengthSq(r2);
@@ -123,13 +123,14 @@ public:
         y /= num;
         z /= num;
     }
-    inline Point3d operator-() const { return {-x, -y, -z}; }
+    [[nodiscard]] Point3d operator-() const { return {-x, -y, -z}; }
 
-    bool operator==(const Point3d& vec) const
+    [[nodiscard]] bool operator==(const Point3d& vec) const
     {
         return ((x == vec.x) && (y == vec.y) && (z == vec.z));
     }
-    bool operator!=(const Point3d& vec) const { return !((*this) == vec); }
+    
+   [[nodiscard]]  bool operator!=(const Point3d& vec) const { return !((*this) == vec); }
 };
 
 // Add and Substract

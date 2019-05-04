@@ -21,7 +21,7 @@ struct DiameterGraph
 {
     using vectors = std::vector<Point3d>;
 
-    DiameterGraph(const Graph& G) : A(G.num_vertices(), Row(G.num_vertices(), 0))
+    explicit DiameterGraph(const Graph& G) : A(G.num_vertices(), Row(G.num_vertices(), 0))
     {
         for (auto u : G.vertices())
         {

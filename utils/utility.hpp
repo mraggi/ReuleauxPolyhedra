@@ -43,7 +43,7 @@ inline std::vector<std::string> read_txt_file(const std::string& filename,
             buffer.erase(comment_start, buffer.end());
         }
 
-        if (buffer.size() > 0)
+        if (!buffer.empty())
             result.emplace_back(buffer);
     }
     return result;

@@ -9,7 +9,8 @@
 #include <vector>
 
 using Vertex = int;
-
+using size_type = std::ptrdiff_t;
+using index_type = std::ptrdiff_t;
 using Row = std::vector<char>;
 using Matrix = std::vector<Row>;
 
@@ -25,7 +26,7 @@ public:
         : num_vertices_(names.size()), graph_(names.size())
     {}
 
-    int degree(Vertex a) const { return graph_[a].size(); }
+    [[nodiscard]] size_type degree(Vertex a) const { return graph_[a].size(); }
 
     // Graph modification functions
     void add_edge(Vertex from, Vertex to)
@@ -33,32 +34,28 @@ public:
         graph_[from].emplace_back(to);
         graph_[to].emplace_back(from);
         A[from][to] = A[to][from] = 1;
+        ++num_edges_;
         neighbors_sorted_ = false;
     }
 
-    bool are_neighbors(Vertex a, Vertex b) const { return A[a][b]; }
+    [[nodiscard]] bool are_neighbors(Vertex a, Vertex b) const { return static_cast<bool>(A[a][b]); }
 
     // Get Graph Info
-    Vertex num_vertices() const { return num_vertices_; }
-    auto vertices() const { return NN(num_vertices_); }
+    [[nodiscard]] size_type num_vertices() const { return num_vertices_; }
+    [[nodiscard]] auto vertices() const { return NN(num_vertices_); }
 
-    size_t num_edges() const
+    [[nodiscard]] size_type num_edges() const
     {
-        size_t total = 0;
-        for (Vertex u = 0; u < num_vertices_; ++u)
-        {
-            total += degree(u);
-        }
-        return total/2;
+        return num_edges_;
     }
 
-    inline const std::vector<Vertex>& neighbors(Vertex n) const { return graph_[n]; }
+    [[nodiscard]] const std::vector<Vertex>& neighbors(Vertex n) const { return graph_[n]; }
 
     void sort_neighbors()
     {
         if (neighbors_sorted_)
             return;
-        for (Vertex v = 0; v < num_vertices_; ++v)
+        for (Vertex v : vertices())
         {
             sort(graph_[v].begin(), graph_[v].end());
         }
@@ -66,7 +63,8 @@ public:
     }
 
 private:
-    Vertex num_vertices_;
+    size_type num_vertices_;
+    size_type num_edges_ {0};
     std::vector<std::vector<Vertex>> graph_;
     bool neighbors_sorted_{false};
 

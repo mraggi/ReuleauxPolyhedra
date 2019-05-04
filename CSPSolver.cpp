@@ -18,7 +18,7 @@ bool do_faces_intersect(const Face& AA, const Face& BB)
     return intersection.size() == 2;
 }
 
-std::ptrdiff_t first_minus_one(const std::vector<int>& P)
+index_t first_minus_one(const std::vector<index_t>& P)
 {
-    return std::find(P.begin(), P.end(), -1) - P.begin();
+    return std::find(P.begin(), P.end(), -1L) - P.begin();
 }

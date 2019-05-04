@@ -32,11 +32,11 @@ public:
             last_ = first_;
     }
 
-    size_type size() const { return last_ - first_; }
-    IntType operator[](size_type i) const { return first_ + i; }
+    [[nodiscard]] size_type size() const { return last_ - first_; }
+    [[nodiscard]] IntType operator[](size_type i) const { return first_ + i; }
 
-    iterator begin() const { return iterator(first_); }
-    iterator end() const { return iterator(last_); }
+    [[nodiscard]] iterator begin() const { return iterator(first_); }
+    [[nodiscard]] iterator end() const { return iterator(last_); }
 
 private:
     IntType first_{0};

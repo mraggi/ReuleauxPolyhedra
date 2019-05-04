@@ -59,13 +59,13 @@ public:
         return elapsed_seconds(previous, start_);
     }
 
-    double peek() const
+    [[nodiscard]] double peek() const
     {
         auto now = std::chrono::steady_clock::now();
 
         return elapsed_seconds(start_, now);
     }
-
+private:
     time_point_t start_;
 };
 
@@ -87,17 +87,17 @@ public:
 
     iter_wrapper(ForwardIter it, parent_t* parent) : current_(it), parent_(parent) {}
 
-    auto operator*() { return *current_; }
+    [[nodiscard]] auto operator*() { return *current_; }
 
     void operator++() { ++current_; }
 
-    bool operator!=(const iter_wrapper& other) const
+    [[nodiscard]] bool operator!=(const iter_wrapper& other) const
     {
         parent_->update();
         return current_ != other.current_;
     }
 
-    const ForwardIter& get() const { return current_; }
+    [[nodiscard]] const ForwardIter& get() const { return current_; }
 
 private:
     friend class tqdm_for_lvalues<ForwardIter>;
@@ -138,11 +138,12 @@ public:
     tqdm_for_lvalues(tqdm_for_lvalues&&) = delete;
     tqdm_for_lvalues& operator=(tqdm_for_lvalues&&) = delete;
     tqdm_for_lvalues& operator=(const tqdm_for_lvalues&) = delete;
+    ~tqdm_for_lvalues() = default;
 
     template <class Container>
     tqdm_for_lvalues(Container&&) = delete; // prevent misuse!
 
-    iterator begin()
+    [[nodiscard]] iterator begin()
     {
         chronometer_.reset();
         refresh_.reset();
@@ -150,7 +151,7 @@ public:
         return first_;
     }
 
-    iterator end() const { return last_; }
+    [[nodiscard]] iterator end() const { return last_; }
 
     void update()
     {
@@ -165,14 +166,14 @@ public:
     }
 
     void set_ostream(std::ostream& os) { os_ = &os; }
-    void set_prefix(std::string s) { prefix_ = std::move(s); }
+    void set_prefix(std::string s) { prefix_ = std::move(s); } //NOLINT
     void set_bar_size(int size) { bar_size_ = size; }
     void set_min_update_time(double time) { min_time_per_update_ = time; }
 
     template <class T>
     tqdm_for_lvalues& operator<<(const T& t)
     {
-        suffix_ << t;
+        suffix_ << t; //NOLINT
         return *this;
     }
 
@@ -186,7 +187,7 @@ public:
     }
 
 private:
-    index iters_left() const { return num_iters_ - iters_done_; }
+    [[nodiscard]] index iters_left() const { return num_iters_ - iters_done_; }
 
     void print_progress()
     {
@@ -199,7 +200,7 @@ private:
         std::stringstream bar;
 
         bar << '\r' << prefix_ << '{' << std::fixed << std::setprecision(1) << std::setw(4)
-            << 100*complete << "%} ";
+            << 100.*complete << "%} ";
 
         print_bar(bar, complete);
 
@@ -217,7 +218,7 @@ private:
         os_->flags(flags);
     }
 
-    double calc_advancement() const { return iters_done_/(num_iters_ + 0.0000000000001); }
+    [[nodiscard]] double calc_advancement() const { return iters_done_/(num_iters_ + 0.000000000001); }
 
     void print_bar(std::stringstream& ss, double filled) const
     {
@@ -225,7 +226,7 @@ private:
         ss << '[' << std::string(num_filled, '#') << std::string(bar_size_ - num_filled, ' ') << ']';
     }
 
-    double time_since_refresh() const { return refresh_.peek(); }
+    [[nodiscard]] double time_since_refresh() const { return refresh_.peek(); }
     void reset_refresh_timer() { refresh_.reset(); }
 
     iterator first_;
@@ -264,9 +265,9 @@ public:
 
     explicit tqdm_for_rvalues(Container&& C) : C_(std::forward<Container>(C)), tqdm_(C_) {}
 
-    auto begin() { return tqdm_.begin(); }
+    [[nodiscard]] auto begin() { return tqdm_.begin(); }
 
-    auto end() { return tqdm_.end(); }
+    [[nodiscard]] auto end() { return tqdm_.end(); }
 
     void update() { return tqdm_.update(); }
 
@@ -338,7 +339,7 @@ public:
 
     explicit int_iterator(IntType val) : value_(val) {}
 
-    IntType& operator*() { return value_; }
+    [[nodiscard]] IntType& operator*() { return value_; }
 
     int_iterator& operator++()
     {
@@ -357,7 +358,7 @@ public:
         return *this;
     }
 
-    difference_type operator-(const int_iterator& other) const { return value_ - other.value_; }
+    [[nodiscard]] difference_type operator-(const int_iterator& other) const { return value_ - other.value_; }
 
     bool operator!=(const int_iterator& other) const { return value_ != other.value_; }
 
@@ -377,9 +378,9 @@ public:
     range(IntType first, IntType last) : first_(first), last_(last) {}
     explicit range(IntType last) : first_(0), last_(last) {}
 
-    iterator begin() const { return first_; }
-    iterator end() const { return last_; }
-    index size() const { return last_ - first_; }
+    [[nodiscard]] iterator begin() const { return first_; }
+    [[nodiscard]] iterator end() const { return last_; }
+    [[nodiscard]] index size() const { return last_ - first_; }
 
 private:
     iterator first_;

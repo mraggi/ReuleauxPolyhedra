@@ -24,12 +24,12 @@ bool do_faces_intersect(const Face& A, const Face& B);
 
 bool is_there_valid_assignment(Vertex x, const Edge& e, const Graph& DualG, const BipartiteGraph& B);
 
-index_t first_minus_one(const std::vector<int>& P);
+index_t first_minus_one(const std::vector<index_t>& P);
 
 class CSPSolver
 {
 public:
-    CSPSolver(const Graph& v, const std::vector<Face>& f)
+    CSPSolver(const Graph& v, const std::vector<Face>& f) //NOLINT
         : n(f.size()), G(v), F(f), DualG(f.size()), B(f.size(), f.size())
     {
         assert(n == G.num_vertices());
@@ -56,7 +56,7 @@ private:
     {
         for (Vertex v : G.vertices())
         {
-            for (int i : indices(F))
+            for (index_t i : indices(F))
             {
                 if (G.degree(v) == F[i].size() && !belongs_to(v, F[i]))
                 {
@@ -106,12 +106,12 @@ private:
         }
     }
 
-    using partial_sol = std::vector<int>;
-    bool IsAssignmentValid(const partial_sol& P, int v, int f)
+    using partial_sol = std::vector<index_t>;
+    bool IsAssignmentValid(const partial_sol& P, Vertex v, Vertex f)
     {
-        for (int i = 0; i < n; ++i)
+        for (index_t i = 0; i < n; ++i)
         {
-            int j = P[i];
+            index_t j = P[i];
             if (j == -1)
                 continue;
 
@@ -121,7 +121,7 @@ private:
 
         for (auto vi : F[f])
         {
-            int w = P[vi];
+            auto w = P[vi];
             if (w != -1)
             {
                 if (!belongs_to(v, F[w]))
@@ -132,7 +132,7 @@ private:
         return true;
     }
 
-    std::vector<partial_sol> PossibleFillings(const partial_sol& P, int v)
+    std::vector<partial_sol> PossibleFillings(const partial_sol& P, Vertex v)
     {
         assert(P[v] == -1);
         std::vector<partial_sol> results;
@@ -191,12 +191,12 @@ private:
             if (t == n)
             {
                 solutions.push_back(P);
-                // TODO: replace by return solutions, if claim that if there is a
+                // TODO(mraggi): replace by return solutions, if claim that if there is a
                 // solution it is unique, turns out to be true.
                 continue;
             }
 
-            for (auto x : PossibleFillings(P, t))
+            for (auto&& x : PossibleFillings(P, t))
                 frontier.push_back(x);
         }
 
@@ -205,9 +205,9 @@ private:
 
 public:
     // returns number of solutions
-    int PrintSolutions(std::stringstream& ss)
+    std::int64_t PrintSolutions(std::stringstream& ss)
     {
-        int num = 0;
+        std::int64_t num = 0;
         ArcConsistency();
         auto solutions = DFSSearch();
         for (auto& tau : solutions)
@@ -240,7 +240,7 @@ public:
         }
         return num;
     }
-
+private:
     index_t n;
 
     Graph G; // original graph

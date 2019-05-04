@@ -4,28 +4,21 @@
 #include <istream>
 #include <vector>
 
-std::vector<std::vector<std::vector<int>>> read_plantri_file(const std::string& filename)
+inline std::vector<std::vector<std::vector<int>>> read_plantri_file(const std::string& filename)
 {
     std::vector<std::vector<std::vector<int>>> result;
     std::streampos size;
-    char* memblock;
 
     std::ifstream file(filename, std::ios::in | std::ios::binary | std::ios::ate);
     if (file.is_open())
     {
         size = file.tellg();
-        memblock = new char[size];
+        std::vector<char> memblock(size);
         file.seekg(0, std::ios::beg);
-        file.read(memblock, size);
+        file.read(&memblock[0], size);
         file.close();
 
-        // 		int current=15;
         int current = 1;
-        // 		for (int i = 0; i<size; i += 1)
-        // 		{
-        // 			cout << int(memblock[i]) << " ";
-        // 		}
-        // 		cout << endl << endl;
         while (current < size)
         {
             int n = memblock[current];
@@ -43,7 +36,6 @@ std::vector<std::vector<std::vector<int>>> read_plantri_file(const std::string& 
             ++current;
             result.push_back(G);
         }
-        delete[] memblock;
     }
     return result;
 }
