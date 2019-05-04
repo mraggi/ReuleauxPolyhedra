@@ -1,4 +1,4 @@
-# Reuleaux Polyhedra
+# Reuleaux polyhedra and their Constant-Width Meissner bodies
 
 ![Meissner Body](https://raw.githubusercontent.com/mraggi/ReuleauxPolyhedra/master/meissner1.png "A constant width body")
 
