@@ -58,12 +58,12 @@ int main(int argc, char* argv[])
     }
     std::string file(argv[1]);
 
-    auto T = read_file(file);
+    auto T = read_plantri_file(file);
 
     std::stringstream ss;
 
     int total = 0;
-
+    std::cout << "# Total number of 3-connected planar graphs: " << T.size() << std::endl;
     for (auto& A : T)
     {
         // 		std::cout << "Nueva grafica de " << G.size() << " vertices" <<

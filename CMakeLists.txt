@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 set(CMAKE_BUILD_TYPE Release)
 
-add_definitions(-Ofast)
+#add_definitions(-Ofast)
 
 add_executable(cspsolver CSPSolver.cpp CSPSolvermain.cpp)
 add_executable(embedding Embedding.cpp)

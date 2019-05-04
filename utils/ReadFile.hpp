@@ -4,7 +4,7 @@
 #include <istream>
 #include <vector>
 
-std::vector<std::vector<std::vector<int>>> read_file(const std::string& filename)
+std::vector<std::vector<std::vector<int>>> read_plantri_file(const std::string& filename)
 {
     std::vector<std::vector<std::vector<int>>> result;
     std::streampos size;

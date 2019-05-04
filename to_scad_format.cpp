@@ -77,20 +77,20 @@ int main(int argc, char* argv[])
         auto G = read_graph(txt_file, curr_line);
         auto U = read_graph(txt_file, curr_line);
         auto P = read_points(txt_file, curr_line);
-        
+
         center_points(P);
-        
+
         std::string ofn = outfilename + std::to_string(i) + ".scad"s;
-        
-        std::ofstream outfile(ofn); 
-        
+
+        std::ofstream outfile(ofn);
+
         if (!outfile)
             std::cerr << "ERROR: Cannot open file " << ofn << " for writing." << std::endl;
-        
+
         outfile << "$fn=240;\n"
-                  << "use <lib.scad>;\n"
-                  << "r=100;\n"
-                  << "pts=r*[";
+                << "use <lib.scad>;\n"
+                << "r=100;\n"
+                << "pts=r*[";
         for (auto p : P)
         {
             outfile << '[' << p.x << ", " << p.y << ", " << p.z << "], ";
@@ -107,7 +107,7 @@ int main(int argc, char* argv[])
                 if (a > opposite.first || a > opposite.second)
                     continue;
                 outfile << "[" << a << ", " << b << ", " << opposite.first << ", "
-                          << opposite.second << "], ";
+                        << opposite.second << "], ";
             }
         }
         outfile << "];\n\n";
