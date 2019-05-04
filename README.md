@@ -24,3 +24,19 @@ All results from each step in the pipeline are in the folder `Data` for graphs w
 3. Run `embedding` on the output of the last step to use [differential evolution](https://en.wikipedia.org/wiki/Differential_evolution) to find possible proper embeddings of the graphs as Reuleaux Polyhedra. 
 4. Run `to_scad_format` on the output of the previous step to generate scad files from embeddings.
 5. To get stl files from scad files, install [openscad](https://www.openscad.org/) run `openscad -o FILE.stl FILE.scad` and wait a few minutes. These can be visualized, printed, etc.
+
+# LICENSE
+
+If you use this software (or parts of this software) in your research, we would appreciate a citation:
+```bibtex
+@misc{montejano2019graphs,
+    title={The graphs behind Reuleaux polyhedra},
+    author={Luis Montejano and Eric Pauli and Miguel Raggi and Edgardo Roldán-Pensado},
+    year={2019},
+    eprint={1904.12761},
+    archivePrefix={arXiv},
+    primaryClass={cs.CG}
+}
+```
+
+The above will change once the paper is accepted for publication.
