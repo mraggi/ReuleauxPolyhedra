@@ -11,8 +11,8 @@ using Population = std::vector<Individual>;
 
 struct DiffEvoParams
 {
-    int population_size{40};
-    int num_epochs{400000};
+    int population_size{30};
+    int num_epochs{500000};
     double force{0.5};
     double change_prob{0.5};
 };
@@ -175,7 +175,7 @@ std::vector<Point3d> FindUnitDistEmbedding(const Graph& G, const DiffEvoParams& 
     //     std::vector<Point3d> result;
     //     double best_cost = 9999999.;
 
-    for (int attempt = 0; attempt < 20; ++attempt)
+    for (int attempt = 0; attempt < 30; ++attempt)
     {
         auto population = Population(P.population_size);
         std::generate(population.begin(), population.end(), [n]() {
@@ -203,7 +203,7 @@ std::vector<Point3d> FindUnitDistEmbedding(const Graph& G, const DiffEvoParams& 
             pbar << "Best: " << D.best_cost << " at epoch " << epoch
                  << " with a population of: " << D.population_size();
 
-            if (D.best_cost < 1.e-14)
+            if (D.best_cost < 4.e-15)
                 return D.best;
 
             if (epoch < P.num_epochs/2 && (epoch + 1)%add_every_nth == 0)
@@ -222,6 +222,7 @@ std::vector<Point3d> FindUnitDistEmbedding(const Graph& G, const DiffEvoParams& 
         }
     }
 
+    std::cerr << "\n\nFAILED\n\n" << std::endl;
     //     if (best_cost > 0)
     return std::vector<Point3d>();
 
