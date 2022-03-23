@@ -38,14 +38,14 @@ Or, manually:
 
 If you use this software (or parts of this software) in your research, we would appreciate a citation:
 ```bibtex
-@misc{montejano2019graphs,
+@article{montejano2019graphs,
     title={The graphs behind Reuleaux polyhedra},
     author={Luis Montejano and Eric Pauli and Miguel Raggi and Edgardo Roldán-Pensado},
-    year={2019},
-    eprint={1904.12761},
-    archivePrefix={arXiv},
-    primaryClass={cs.CG}
+    year={2020},
+    month={July},
+    journal={Discrete & Computational Geometry},
+    link={https://rdcu.be/cJEUg}
 }
 ```
 
-The above will change once the paper is accepted for publication.
+This project was supported by PAPIIT IN1169919.
